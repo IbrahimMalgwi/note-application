@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'notes.apps.NotesConfig',
     'rest_framework',
+    'corsheaders',
+    'rest_framework_simplejwt',
+
 ]
 
 MIDDLEWARE = [
@@ -49,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'notepad.urls'
@@ -124,6 +128,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  
+]
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -131,7 +139,7 @@ LOGGING = {
         'discord': {
             'level': 'INFO',
             'class': 'discord_webhook.WebhookHandler',
-            'url': 'YOUR_DISCORD_WEBHOOK_URL',
+            'url': 'https://discord.com/api/webhooks/1177754971995897927/afZXbYBzpEe25JT2rTvAd921lOjGmj4PppuKfXItLi62GFidtJy7k72QAwZk6cGj4awp',
         },
     },
     'loggers': {
@@ -141,4 +149,19 @@ LOGGING = {
             'propagate': True,
         },
     },
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=120),
+    'ROTATE_REFRESH_TOKENS': False,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': 'Password123',
+    'VERIFYING_KEY': None,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }

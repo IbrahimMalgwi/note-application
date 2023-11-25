@@ -5,9 +5,9 @@ from rest_framework.routers import DefaultRouter
 from notes.views import NoteViewSet
 
 router = DefaultRouter()
-router.register(r'notes', NoteViewSet, basename='note')
+router.register(r'notes', NoteViewSet, )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api', include(router.urls)),
+    path('api/', include('notes.urls')),
 ]
